@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  weaviate:
+    image: semitechnologies/weaviate:1.17.4
+    ports:
+      - 8080:8080
+    restart: on-failure:0
+    volumes:
+      - /var/weaviate:/var/lib/weaviate
+    labels:
+      - "traefik.http.routers.weaviate.rule=Host(`weaviate.your-host.com`)"
+      - "traefik.http.routers.weaviate.tls=true"
+      - "traefik.http.routers.weaviate.tls.certresolver=lets-encrypt"
+    environment:
+      OPENAI_APIKEY: ${OPENAI_APIKEY}  # replace with your actual OpenAI API key
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-openai'
+      ENABLE_MODULES: 'text2vec-openai,generative-openai'
+      CLUSTER_HOSTNAME: 'node1'
