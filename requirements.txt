@@ -1,0 +1,6 @@
+weaviate-client
+numpy
+pandas
+scikit-learn
+tensorflow
+gitpython
